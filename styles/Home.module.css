@@ -2,6 +2,13 @@
   padding: 0 2rem;
 }
 
+.box{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .main {
   min-height: 100vh;
   padding: 4rem 0;
