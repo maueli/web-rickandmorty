@@ -1,9 +1,10 @@
 import type { NextPage } from 'next'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, createContext, useContext } from 'react';
 
 import { Box } from '../components/item';
+import { Form } from '../components/form';
 
 const renderItem = ({item, index})=>(
   <div key={index} className={styles.containerBox}>
@@ -18,14 +19,31 @@ const renderItem = ({item, index})=>(
   </div>
 )
 
-const URL_BASE = '';
 
-const Home: NextPage = () => {
+const initValue = {
+  name:'',
+  gender: '',
+  origin: '',
+  status:'',
+  species:''
+}
+const Context = createContext(initValue);
+
+const Home = () => {
+  return(
+    <Context.Provider value={initValue}>
+      <Home_/>
+    </Context.Provider>
+  )
+}
+
+const Home_: NextPage = () => {
   const [data, setData] = useState([]);
   const [url, setUrl] = useState('https://rickandmortyapi.com/api/character?');
   const [next, setNext] = useState('');
   const [prev, setPrev] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(()=>{
     if( url !== null ){
@@ -47,7 +65,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <h1> Rick {'&'} Morty Characters </h1>
-      {/* <input name='page' placeholder='page' value={page} type="number" onChange={(e)=>setPage(e.target.value)}/> */}
+      <Form/>
       <div className={styles.containerButtons}>
         <button type='button' onClick={()=>setUrl(prev)}>
           Prev
@@ -64,6 +82,8 @@ const Home: NextPage = () => {
     </div>
   )
 }
+
+
 
 export default Home
 
