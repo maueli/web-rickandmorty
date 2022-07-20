@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { useEffect, useState, createContext, useContext, useReducer } from 'react';
+import { useEffect, useState, createContext, useReducer, useRef } from 'react';
 
 import { Box } from '../components/item';
 import { Form } from '../components/form';
@@ -29,6 +29,12 @@ const renderItem = ({item, index})=>(
   </div>
 )
 
+const renderItemFilters = ({item, index})=>(
+  <div key={index} className={styles.filterBox}>
+    {item}
+  </div>
+)
+
 const Context = createContext({reducer, initialState});
 
 const Home = () => {
@@ -52,17 +58,20 @@ const Home_: NextPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [state, dispatch] = useReducer( reducer, initialState );
-  const [filtersText, setFilterText] = useState<any>([]);
+  const filtersText = useRef([]);
 
   const onSearch = () => {
     //console.log(state);
+    filtersText.current = [];
+    //console.log(filtersText.current);
     let urlFilter = ''; 
     for( let filter in state){
       if( state[filter] !== ''){
         const key = filter;
         const value = state[filter]; 
         urlFilter = urlFilter+`${key}=${value}&`;
-        setFilterText([...filtersText,value])
+        filtersText.current = [...filtersText.current,value]
+        //console.log(filtersText.current)
       }
     }
     setUrl(URL_BASE+urlFilter);
@@ -103,7 +112,7 @@ const Home_: NextPage = () => {
           Next
         </button>
       </div>
-      {filtersText && filtersText.map(e=><p>{e}</p>)}
+      {filtersText.current && filtersText.current.map((item,index)=>renderItemFilters({item,index}))}
       <div className={styles.list}>
         {data.map((item,index)=>renderItem({item,index}))}
       </div>

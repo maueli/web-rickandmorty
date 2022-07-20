@@ -33,6 +33,14 @@
   transition: ease-in-out 200ms;
 }
 
+.filterBox{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+
 .title{
   font-size: 30px;
   text-align: center;
