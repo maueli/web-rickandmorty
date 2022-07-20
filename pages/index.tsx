@@ -7,6 +7,15 @@ import { Box } from '../components/item';
 import { Form } from '../components/form';
 import { initialState, reducer } from '../store/reducer';
 
+export enum Filters {
+  Name = 'name',
+  Gender = 'gender',
+  Status = 'status',
+  Species = 'species',
+  Origin = 'origin'
+}
+
+
 const renderItem = ({item, index})=>(
   <div key={index} className={styles.containerBox}>
     <Box>
@@ -43,6 +52,7 @@ const Home_: NextPage = () => {
   const [next, setNext] = useState('');
   const [prev, setPrev] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [state, dispatch] = useReducer( reducer, initialState );
 
   const isComplete = (input:any) => {
@@ -53,9 +63,15 @@ const Home_: NextPage = () => {
   const onSearch = () => {
     console.log(state);
     let filters = [];
-
-    const name = `name=${state.name}`;
-    //setUrl(`https://rickandmortyapi.com/api/character/?name=rick&status=`)
+    let urlFilter = ''; 
+    for( let filter in state){
+      if( state[filter] !== ''){
+        const key = filter;
+        const value = state[filter]; 
+        urlFilter = urlFilter+`${key}=${value}&`
+      }
+    }
+    setUrl(URL_BASE+urlFilter);
   };
 
   useEffect(()=>{
@@ -69,11 +85,17 @@ const Home_: NextPage = () => {
         setData(data.results);
         setIsLoading(false);
       })
-      .catch(err=>console.log(err))
+      .catch(err=>{
+        setIsLoading(false);
+        console.log(err)
+        setError(true);
+        setTimeout(()=>setError(false), 3000) 
+      })
     }
   },[url])
 
   if (isLoading) return <h2>Loading...</h2>
+  if (error) return <h2> No hay resultados</h2>
 
   return (
     <div className={styles.container}>

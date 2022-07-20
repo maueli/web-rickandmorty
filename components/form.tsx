@@ -1,5 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { initialState, reducer } from '../store/reducer';
+import React, { useEffect, useState } from 'react';
 
 
 
@@ -23,7 +22,6 @@ export const Inputs = ({init, type, dispatch}:any)=>{
 // }
 
 export const Form = ({onSearch, dispatch}:any) => {
-    //const [state, dispatch] = useReducer( reducer, initialState );
     return(
         <div>
             <Inputs init={'Name'} type='name' dispatch={dispatch}/>
