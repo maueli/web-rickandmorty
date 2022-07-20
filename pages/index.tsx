@@ -42,33 +42,27 @@ const Home = () => {
   )
 }
 
-// https://rickandmortyapi.com/api/character/?name=rick&status=alive
-
 const URL_BASE = 'https://rickandmortyapi.com/api/character/?';
 
 const Home_: NextPage = () => {
   const [data, setData] = useState([]);
-  const [url, setUrl] = useState('https://rickandmortyapi.com/api/character?');
+  const [url, setUrl] = useState(URL_BASE);
   const [next, setNext] = useState('');
   const [prev, setPrev] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [state, dispatch] = useReducer( reducer, initialState );
-
-  const isComplete = (input:any) => {
-    if(input && input.length) return input;
-    return false;
-  };
+  const [filtersText, setFilterText] = useState<any>([]);
 
   const onSearch = () => {
-    console.log(state);
-    let filters = [];
+    //console.log(state);
     let urlFilter = ''; 
     for( let filter in state){
       if( state[filter] !== ''){
         const key = filter;
         const value = state[filter]; 
-        urlFilter = urlFilter+`${key}=${value}&`
+        urlFilter = urlFilter+`${key}=${value}&`;
+        setFilterText([...filtersText,value])
       }
     }
     setUrl(URL_BASE+urlFilter);
@@ -109,7 +103,7 @@ const Home_: NextPage = () => {
           Next
         </button>
       </div>
-
+      {filtersText && filtersText.map(e=><p>{e}</p>)}
       <div className={styles.list}>
         {data.map((item,index)=>renderItem({item,index}))}
       </div>
