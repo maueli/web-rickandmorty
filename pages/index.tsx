@@ -1,10 +1,11 @@
 import type { NextPage } from 'next'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { useEffect, useState, createContext, useContext } from 'react';
+import { useEffect, useState, createContext, useContext, useReducer } from 'react';
 
 import { Box } from '../components/item';
 import { Form } from '../components/form';
+import { initialState, reducer } from '../store/reducer';
 
 const renderItem = ({item, index})=>(
   <div key={index} className={styles.containerBox}>
@@ -19,23 +20,22 @@ const renderItem = ({item, index})=>(
   </div>
 )
 
-
-const initValue = {
-  name:'',
-  gender: '',
-  origin: '',
-  status:'',
-  species:''
-}
-const Context = createContext(initValue);
+const Context = createContext({reducer, initialState});
 
 const Home = () => {
   return(
-    <Context.Provider value={initValue}>
+    <Context.Provider value={{
+      reducer,
+      initialState
+    }}>
       <Home_/>
     </Context.Provider>
   )
 }
+
+// https://rickandmortyapi.com/api/character/?name=rick&status=alive
+
+const URL_BASE = 'https://rickandmortyapi.com/api/character/?';
 
 const Home_: NextPage = () => {
   const [data, setData] = useState([]);
@@ -43,7 +43,20 @@ const Home_: NextPage = () => {
   const [next, setNext] = useState('');
   const [prev, setPrev] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [state, dispatch] = useReducer( reducer, initialState );
 
+  const isComplete = (input:any) => {
+    if(input && input.length) return input;
+    return false;
+  };
+
+  const onSearch = () => {
+    console.log(state);
+    let filters = [];
+
+    const name = `name=${state.name}`;
+    //setUrl(`https://rickandmortyapi.com/api/character/?name=rick&status=`)
+  };
 
   useEffect(()=>{
     if( url !== null ){
@@ -65,7 +78,7 @@ const Home_: NextPage = () => {
   return (
     <div className={styles.container}>
       <h1> Rick {'&'} Morty Characters </h1>
-      <Form/>
+      <Form onSearch={onSearch} dispatch={dispatch}/>
       <div className={styles.containerButtons}>
         <button type='button' onClick={()=>setUrl(prev)}>
           Prev

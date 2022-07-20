@@ -1,46 +1,9 @@
 import React, { useEffect, useReducer, useState } from 'react';
-
-const initialState = {
-    name:'',
-    gender: '',
-    origin: '',
-    status:'',
-    species:''
-};
-
-export const reducer = (state,action) => {
-    switch(action.type){
-        case 'name':
-            return{
-                ...state,
-                name: action.payload
-            };
-        case 'species':
-            return{
-                ...state,
-                species: action.payload
-            };
-        case 'origin':
-            return{
-                ...state,
-                origin: action.payload
-            };
-        case 'gender':
-            return{
-                ...state,
-                gender: action.payload
-            };
-        case 'status':
-            return{
-                ...state,
-                status: action.payload
-            };
-    }
-}
+import { initialState, reducer } from '../store/reducer';
 
 
 
-export const Inputs = ({init, type, dispatch})=>{
+export const Inputs = ({init, type, dispatch}:any)=>{
     const [ value, setValue ] = useState('');
     useEffect(()=>{
         dispatch({
@@ -59,8 +22,8 @@ export const Inputs = ({init, type, dispatch})=>{
 //     const [values, setValues] = useState([]);
 // }
 
-export const Form = () => {
-    const [state, dispatch] = useReducer( reducer, initialState );
+export const Form = ({onSearch, dispatch}:any) => {
+    //const [state, dispatch] = useReducer( reducer, initialState );
     return(
         <div>
             <Inputs init={'Name'} type='name' dispatch={dispatch}/>
@@ -68,7 +31,7 @@ export const Form = () => {
             <Inputs init={'Species'} type='species' dispatch={dispatch}/>
             <Inputs init={'Gender'} type='gender'dispatch={dispatch} />
             <Inputs init={'Origin'} type='origiin' dispatch={dispatch}/>
-            <button type='button' onClick={()=>console.log(state)}>
+            <button type='button' onClick={onSearch}>
                 Search
             </button>
         </div>
