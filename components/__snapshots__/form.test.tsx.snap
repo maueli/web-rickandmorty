@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`a 1`] = `
+<div>
+  <input
+    name="name"
+    onChange={[Function]}
+    placeholder="name"
+    type="text"
+    value=""
+  />
+</div>
+`;
+
+exports[`without blow up 1`] = `
+<div>
+  <input
+    name="name"
+    onChange={[Function]}
+    placeholder="name"
+    type="text"
+    value=""
+  />
+</div>
+`;

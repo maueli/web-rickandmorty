@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+//import type { NextPage } from 'next'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { useEffect, useState, createContext, useReducer, useRef } from 'react';
@@ -50,7 +50,7 @@ const Home = () => {
 
 const URL_BASE = 'https://rickandmortyapi.com/api/character/?';
 
-const Home_: NextPage = () => {
+const Home_ = () => {
   const [data, setData] = useState([]);
   const [url, setUrl] = useState(URL_BASE);
   const [next, setNext] = useState('');

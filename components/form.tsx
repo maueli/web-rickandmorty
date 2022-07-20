@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 
 
-export const Inputs = ({init, type, dispatch}:any)=>{
+export const Inputs = ({init, type, dispatch})=>{
     const [ value, setValue ] = useState('');
     useEffect(()=>{
         dispatch({
@@ -17,11 +17,7 @@ export const Inputs = ({init, type, dispatch}:any)=>{
     )
 }
 
-// export const useInputs = () => {
-//     const [values, setValues] = useState([]);
-// }
-
-export const Form = ({onSearch, dispatch}:any) => {
+export const Form = ({onSearch, dispatch}) => {
     return(
         <div>
             <Inputs init={'Name'} type='name' dispatch={dispatch}/>
